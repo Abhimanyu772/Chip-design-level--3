@@ -1,318 +1,229 @@
-Section 1: Communication with computers
-Location of the package in an arduino board.
-In an Arduino board, the location of a package (such as a microcontroller, sensor, or module) depends on the specific component and board layout. Here are some key package locations:
+## Section 1: Communication with computers
 
-Microcontroller (Main IC)
+### Location of the package in an arduino board.
 
-Located at the center or near the middle of the board.
-Example: ATmega328P (DIP or SMD package) on Arduino Uno is the black rectangular chip.
-Voltage Regulators
+(lecture videos)
 
-Usually found near the power input section (USB or barrel jack).
-Helps convert and regulate voltage (e.g., 5V, 3.3V).
-Oscillator (Crystal Resonator)
+![image](https://github.com/user-attachments/assets/27238e24-41b2-4cfd-a8c5-2ea7f9e36c36)
 
-Near the microcontroller to provide clock signals.
-Example: 16 MHz crystal on Arduino Uno.
-USB-to-Serial Converter
+The above picture is a picture of an aurdino board. The circled area is known as a **package** and is what this course is going to be about.
 
-Found near the USB port.
-Converts USB signals to serial communication for programming the microcontroller.
-Example: CH340G or ATmega16U2 on some Arduino boards.
-Headers (Pin Connectors)
+(lecture videos)
 
-Located along the edges of the board for connecting sensors, actuators, and modules.
-Example: Digital (0–13), Analog (A0–A5), Power (3.3V, 5V, GND, Vin) pins.
-Coordination Between Hardware and Software in Computers & Arduino
-Computers and microcontrollers (like Arduino) require seamless coordination between hardware and software to function properly. This coordination happens through various layers:
+![image](https://github.com/user-attachments/assets/107a06fc-c5e6-42c4-8bfd-16b8e210aea1)
 
-1. Hardware Components
-Hardware includes all the physical components that execute tasks based on software instructions. Some key components:
+This picture is a simplified version of the aurdino board.
 
-Microcontroller (MCU) – The brain of an Arduino board (e.g., ATmega328P on Arduino Uno).
-Memory (RAM, Flash, EEPROM) – Stores data and programs.
-Input Devices (Sensors, Buttons) – Provide data to the system.
-Output Devices (LEDs, Motors, Displays) – Perform actions based on software control.
-Power Supply – Provides energy to run the board.
-2. Software Components
-Software includes programs and firmware that tell the hardware what to do. Some important parts:
+![image](https://github.com/user-attachments/assets/42229c9d-ec19-4dce-889d-1f8c69a5e697)
 
-Firmware (Bootloader) – Pre-installed in the microcontroller, helps load user programs.
-Arduino IDE & Sketches – The software where users write and upload code.
-Drivers – Ensure communication between Arduino and a computer.
-Libraries – Prewritten code to control hardware components easily.
-3. Coordination Between Hardware and Software
-(a) Using a Microcontroller
-The software (code/sketch) written in the Arduino IDE is compiled into machine code.
-The firmware (bootloader) loads this code into the microcontroller's Flash memory.
-The microcontroller executes the instructions from memory and interacts with connected hardware.
-(b) Communication Through Input/Output (I/O) Pins
-Digital Pins: Turn components ON/OFF (e.g., controlling an LED).
-Analog Pins: Read sensor values (e.g., temperature sensor).
-PWM (Pulse Width Modulation): Simulates analog output (e.g., dimming an LED).
-(c) Using Communication Protocols
-Serial Communication (UART, USB) – Used for debugging and data exchange with a computer.
-I2C & SPI – Used to communicate with multiple sensors and peripherals efficiently.
-4. Example: Blinking an LED
-The software and hardware work together in the following way:
+This image shows what we get if we zoom into the circled area (package) shown in the first diagram.
+* The **pins** are what connects the logic in the chip to the external world. 
+* The **pads** are what the connections have to pass through to get to the chip. 
+* The **foundry IP's** are components made in a foundry.
 
-Software (Code in Arduino IDE)
-cpp
-Copy
-Edit
-void setup() {
-    pinMode(13, OUTPUT);  // Set pin 13 as an output
-}
+### Conversion of programs to actual hardware that can perform the code written in the programs.
 
-void loop() {
-    digitalWrite(13, HIGH);  // Turn LED ON
-    delay(1000);             // Wait 1 second
-    digitalWrite(13, LOW);   // Turn LED OFF
-    delay(1000);             // Wait 1 second
-}
-How it Works in Hardware
-The microcontroller sends voltage to pin 13.
-The LED receives power and lights up.
-The delay function pauses the program for 1 second.
-The microcontroller then turns off the LED.
-Conclusion
-Coordination between hardware and software enables smooth functionality in Arduino and computing systems. The software sends instructions, the microcontroller processes them, and the hardware executes actions. This coordination is what makes embedded systems powerful for automation, robotics, and IoT applications.
+(lecture videos)
 
-Memory (EEPROM, Flash, RAM)
+![image](https://github.com/user-attachments/assets/2239ea74-59be-46d4-a74e-d06d561708fc)
 
-Embedded inside the microcontroller, not visible as a separate component.
-SoC (System-on-Chip) Design and OpenLANE
-1. What is SoC (System-on-Chip) Design?
-A System-on-Chip (SoC) is an integrated circuit (IC) that consolidates all components of a computer or electronic system into a single chip. It typically includes:
+1. The C-language code is first compiled into assembly language which in our case is RISC-V
+2. This assembly language is implemented uding **Hardware Description Language (HDL)** which is picorv32a in our case.
+3. This is then converted to machine language which is binary in the real world.
 
-Processor (CPU/GPU/RISC-V/ARM)
-Memory (RAM, ROM, Cache, Flash)
-I/O Controllers (USB, GPIO, UART, SPI, I2C, PCIe, etc.)
-Power Management Unit (PMU)
-Networking (Wi-Fi, Bluetooth, Ethernet)
-Security Modules (Encryption, Authentication, Secure Boot)
-SoCs are used in mobile phones, embedded systems, IoT devices, automotive ECUs, and AI accelerators.
+### Coordination between Hardware and Software
 
-2. What is OpenLANE?
-OpenLANE is an open-source RTL-to-GDSII flow used for designing digital integrated circuits. It enables automated ASIC (Application-Specific Integrated Circuit) and SoC design using open-source tools.
+(lecture videos)
 
-Key Features of OpenLANE
-Complete RTL-to-GDSII flow (from high-level design to final layout).
-Uses Sky130 (SkyWater 130nm process) for fabrication.
-Based on open-source EDA (Electronic Design Automation) tools.
-Supports standard cells, macros, and custom IPs.
-Enables custom ASIC/SoC design without proprietary tools.
-3. OpenLANE Design Flow
-The OpenLANE flow follows these steps:
+![image](https://github.com/user-attachments/assets/e4c64801-13b4-49c0-b8f4-96c57a9d7c5a)
 
-Step 1: RTL Design (Register-Transfer Level)
-Design is written in Verilog or VHDL.
-Example: A simple RISC-V processor or custom logic.
-Step 2: Synthesis (Using Yosys & ABC)
-Converts RTL (Verilog) into a gate-level netlist.
-Optimizes for area, power, and performance.
-Step 3: Floorplanning (Using OpenROAD & RePlAce)
-Defines chip layout, including standard cells, macros, and power routing.
-Step 4: Placement & Optimization
-Places the standard cells in an optimal arrangement.
-Uses timing-driven placement for efficiency.
-Step 5: Clock Tree Synthesis (CTS)
-Balances the clock signal across the chip to avoid delays.
-Step 6: Routing (Using TritonRoute)
-Connects all the placed components with metal interconnects.
-Ensures Design Rule Check (DRC) compliance.
-Step 7: Physical Verification (DRC & LVS)
-Checks for design rule violations (DRC) and layout consistency (LVS).
-Step 8: GDSII Generation (Final Chip Layout)
-Generates the final GDSII file, which is sent for fabrication.
-4. Open-Source EDA Tools Used in OpenLANE
-OpenLANE integrates multiple open-source tools for each step of the ASIC design flow:
+1) All your applications are installed on your **Operating System (OS)**. The applications are essentially code that is in a high level language like java or C.
+2) The **compiler** is a part of your sysem software that converts the highlevel languages our applications are programmed in to a set of simpler instructions in an *executable (.exe)* file.
+3) The syntax of these instructions are dependent on your hardware.
+4) The **assembler** then converts these instructions to assembly level language aka. binary (1's and 0's) that the hardware can then implement.
+5) All the compilers and assemblers etc. that help convert the C program to binary is known to be the **Instruction Set Architecture (ISA)** of the computer.
 
-EDA Tool	Purpose
-Yosys	RTL synthesis
-ABC	Logic optimization
-OpenROAD	Automated digital layout
-Magic	Layout design & DRC/LVS
-TritonRoute	Routing
-KLayout	GDSII viewer
-Netgen	Layout vs. Schematic check (LVS)
-Fault	Formal verification
-5. Example: Running OpenLANE for SoC Design
-To use OpenLANE, follow these steps:
+## Section 2: SoC design and OpenLANE
 
-Step 1: Install OpenLANE
-bash
-Copy
-Edit
-git clone https://github.com/The-OpenROAD-Project/OpenLane.git
-cd OpenLane
-make
-Step 2: Start OpenLANE
-bash
-Copy
-Edit
-make mount
-Step 3: Run the Design Flow
-bash
-Copy
-Edit
-./flow.tcl -design my_soc_design
-This will generate a final GDSII file, ready for fabrication.
+### Requirements of ***Open Source*** ASIC Design
 
-6. OpenLANE for RISC-V and Custom SoCs
-OpenLANE can be used to tape out a RISC-V processor (e.g., PicoRV32, VexRiscv).
-Supports SkyWater 130nm (Sky130) process node, enabling low-cost ASIC design.
-Enables custom accelerators for AI, IoT, and security applications.
-7. Benefits of Using OpenLANE
-✅ Fully Open-Source – No proprietary EDA tools required.
-✅ Affordable ASIC Design – Enables academia and startups to develop custom chips.
-✅ End-to-End Flow – Covers everything from RTL to GDSII.
-✅ Supports Open-Source PDKs – Works with SkyWater 130nm, making fabrication accessible.
+* Hardware Description Language and RTL IP's (github.com, opencores.org, librecores.org)
+* Electron Design Automation (EDA) tools. (qflow, OpenROAD, OpenLANE)
+* **PDK** data (Google and Skywaters open source *[130nm PDK](https://github.com/google/skywater-pdk)*)
+* In 1979, chip making was separated into design and fabrication. So Pure Play Fabs (only fabrication no design) and Fabless (only design nd no fabrication) emerged.
+* The interface bbetween the fabricators and the designers was knwn as the **PDK**.
 
-8. Conclusion
-OpenLANE revolutionizes open-source ASIC & SoC design, allowing researchers, startups, and hardware engineers to create custom silicon chips. It integrates powerful open-source EDA tools for an end-to-end RTL-to-GDSII flow.
-Process Design Kit (PDK) in IC Design
-1. What is a Process Design Kit (PDK)?
-A Process Design Kit (PDK) is a set of files and tools provided by a semiconductor foundry that enables IC designers to create custom ASICs (Application-Specific Integrated Circuits) and SoCs (System-on-Chip) for a specific fabrication process.
+(lecture videos)
 
-PDKs contain technology-specific rules and models that define how transistors, metal layers, and other components should be designed and simulated for manufacturing.
+![image](https://github.com/user-attachments/assets/4e3898f3-abbe-4700-9cf7-4539fca1877d)
 
-2. Key Components of a PDK
-A PDK includes various files and tools that support different stages of IC design:
+### Process Design Kit (PDK)
 
-Component	Purpose
-Technology Files	Defines metal layers, via sizes, and process rules.
-Design Rules (DRC)	Specifies constraints for physical layout design.
-Layout vs. Schematic (LVS) Rules	Ensures layout matches circuit design.
-Standard Cell Library	Provides pre-designed logic gates (NAND, NOR, Flip-Flops, etc.).
-SPICE Models	Simulates electrical behavior of transistors.
-Parasitic Extraction Rules (PEX)	Captures real-world delays due to resistance and capacitance.
-Antenna Rules	Prevents damage during fabrication due to charge accumulation.
-GDSII & LEF Files	Defines physical layout and standard cells for placement & routing.
-Monte Carlo & Process Corners	Helps analyze variability across manufacturing conditions.
-3. Popular Open-Source PDKs
-Some open-source PDKs allow researchers and startups to fabricate custom chips without proprietary tools:
+* A **Process Design Kit (PDK)** is a collection of files used to model the specific fabrication process for the EDA tools used to design an integrated circuit (IC).
+* The PDK contains information about the available logic cells, routing rules and device parameters for a particular chip fabrication process.
 
-SkyWater 130nm PDK (Sky130)
+(lecture videos)
 
-Provided by SkyWater Technology.
-Used in Google-sponsored MPW (Multi-Project Wafer) runs.
-Includes standard cells, IO cells, and SRAM designs.
-Supported by OpenLANE for RTL-to-GDSII flow.
-GF180nm PDK
+![image](https://github.com/user-attachments/assets/a33b6ed0-2544-4d52-86ea-490c3e1d09cb)
 
-Released by GlobalFoundries (GF).
-Supports open-source IC design tools.
-TSMC & Intel PDKs (Proprietary)
+### Simplified ASIC (RTL to GDSII) Flow
 
-Used in commercial fabrication at advanced nodes (5nm, 7nm, etc.).
-Requires NDAs and licensing for access.
-4. Role of PDK in ASIC/SoC Design Flow
-A PDK is used at different stages of chip design:
+1. **Synthesis:** This stage converts the HDL code (e.g., Verilog) into a gate-level netlist. The netlist represents the circuit's functionality using basic logic gates.
 
-Schematic Design (EDA Tools: Cadence Virtuoso, Synopsys Custom Compiler)
+(lecture videos)
 
-Uses SPICE models for circuit simulation.
-Physical Layout Design
+![image](https://github.com/user-attachments/assets/edd36bad-aade-4703-aaa4-bb7537adbc59)
 
-Designers use PDK DRC/LVS rules to create a manufacturable layout.
-Verification (DRC, LVS, PEX)
+2. **Floor and Power Planning:** In this stage, the chip layout is planned. The die area is divided into sections for different functional blocks and I/O pads. The power supply network is also designed to ensure proper power distribution throughout the chip.
+ 
+3. **Placement:** This stage involves positioning the logic cells from the netlist onto the chip layout. The goal is to find optimal locations for the cells considering factors like timing and area constraints. There are two main placement steps:
 
-PDK ensures that the design complies with foundry specifications.
-GDSII Generation & Fabrication
+    * **Global placement:** This provides an initial placement for all cells, aiming for optimal positions but not necessarily following all layout rules. The placement in this step may not always be legal.
+    * **Detailed placement:** This refines the initial placement to ensure all cells adhere to the design rules.
 
-The final chip layout is exported in GDSII format using PDK specifications.
-5. Example: Using SkyWater 130nm PDK in OpenLANE
-To use Sky130 PDK in OpenLANE:
+(lecture videos)
 
-bash
-Copy
-Edit
-export PDK_ROOT=/path/to/skywater-pdk
-export PDK=sky130A
-Run the OpenLANE flow with:
+![image](https://github.com/user-attachments/assets/d7eba5be-7b87-4aef-a5ca-50e0b81ae6c8)
 
-bash
-Copy
-Edit
-./flow.tcl -design my_chip -pdk sky130A
-This integrates Sky130 process rules and standard cells into your design.
+(lecture videos)
 
-6. Why PDKs Matter in IC Design?
-✅ Ensures Manufacturability – Prevents design violations before fabrication.
-✅ Enables Process-Specific Optimization – Fine-tunes designs for better performance and power efficiency.
-✅ Provides Standard Cells & Models – Simplifies design with pre-built logic gates and components.
-✅ Bridges the Gap Between Design & Fabrication – Connects EDA tools with real-world silicon.
+![image](https://github.com/user-attachments/assets/9fe021aa-a7c2-42d2-bbdb-a10760e62990)
 
-7. Conclusion
-PDKs are essential for chip design, providing the necessary data and rules for successful fabrication. Open-source PDKs like Sky130 are making custom silicon design more accessible than ever.
+4. **Clock Tree Synthesis (CTS):** A clock tree is a network of buffers and wires that distributes the clock signal to all sequential elements (flip-flops) in the design. CTS aims to minimize clock skew, which is the variation in arrival time of the clock signal at different flip-flops.
 
-Section 3: Introduction to Open-Source EDA Tools
-3.1 What Are Open-Source EDA Tools?
-Electronic Design Automation (EDA) tools are software applications that assist engineers in designing, simulating, verifying, and fabricating integrated circuits (ICs), ASICs (Application-Specific Integrated Circuits), and SoCs (System-on-Chip).
+5. **Routing:** This stage involves creating connections between the placed cells using metal layers available in the fabrication process. Routing is typically done in two steps:
 
-Open-source EDA tools provide a cost-effective alternative to proprietary tools (like Cadence, Synopsys, and Mentor Graphics), making IC design accessible to researchers, startups, and academia.
+  * **Global routing:** This defines the general paths for the connections between cells.
+  * **Detailed routing:** This implements the actual wiring connections based on the global routing plan.
 
-3.2 Key Advantages of Open-Source EDA Tools
-✅ Free & Accessible – No expensive licensing fees.
-✅ Customizable – Can be modified for specific applications.
-✅ Supports Open PDKs – Works with Sky130 and GF180 PDKs.
-✅ Community-Driven – Contributions from a global network of developers.
+6. **Sign-off:** This stage involves various checks to ensure the design meets the desired functionality and manufacturing requirements. Here are some common sign-off checks:
 
-3.3 Categories of Open-Source EDA Tools
-Open-source EDA tools cover all stages of the IC design flow:
+  * **Design Rule Checking (DRC):** This verifies if the layout adheres to the design rules specified by the PDK for the fabrication process.
+  * **Layout vs Schematic (LVS):** This compares the final layout with the original gate-level netlist to ensure they are equivalent.
+  * **Static Timing Analysis (STA):** This analyzes the timing delays in the design to ensure all signals meet the timing constraints and the circuit operates at the required frequency.
 
-EDA Tool	Purpose	Alternative Proprietary Tool
-Yosys	RTL synthesis	Synopsys Design Compiler
-OpenROAD	Digital layout automation	Cadence Innovus, Synopsys ICC2
-Magic	Layout editing & DRC/LVS	Cadence Virtuoso
-KLayout	GDSII viewer & layout editing	Mentor Calibre VIEW
-TritonRoute	Global & detailed routing	Cadence NanoRoute
-Netgen	Layout vs. Schematic (LVS)	Mentor Calibre LVS
-NGSPICE/Xyce	Circuit simulation (SPICE)	Synopsys HSPICE
-Fault	Formal verification	Synopsys Formality
-3.4 Open-Source EDA Flow (RTL-to-GDSII)
-Most open-source IC design flows use OpenLANE, which integrates these tools. The typical ASIC design flow is:
+(lecture videos)
 
-RTL Design – Write logic in Verilog/VHDL (Yosys)
-Logic Synthesis – Convert RTL to gate-level design (Yosys + ABC)
-Floorplanning – Define chip area & macro placement (OpenROAD)
-Placement & Optimization – Arrange standard cells (RePlAce)
-Clock Tree Synthesis (CTS) – Distribute clock signals (TritonCTS)
-Routing – Connect all components (TritonRoute)
-DRC/LVS Verification – Ensure design correctness (Magic, Netgen)
-GDSII Export – Generate final layout for fabrication (KLayout)
-3.5 Example: Running Open-Source EDA Flow with OpenLANE
-To run OpenLANE for an ASIC design:
+![image](https://github.com/user-attachments/assets/feb256ed-4dfc-4569-9fc5-f883e1552900)
 
-1️⃣ Clone OpenLANE Repository:
+* **Introduction to OpenLANE and StriVe**
 
-bash
-Copy
-Edit
-git clone https://github.com/The-OpenROAD-Project/OpenLane.git
-cd OpenLane
-make
-2️⃣ Start OpenLANE Environment:
+* OpenLANE is an open-source design flow that aims to automate the entire process of generating a GDSII file from an RTL design, without requiring manual intervention.
+* StriVe is a collection of open-source resources for SoC design, including open PDKs, EDA tools, and RTL examples.
+* It provides features like Design Space Exploration to help find optimal design configurations and offers a growing collection of design examples (43 and growing).
 
-bash
-Copy
-Edit
-make mount
-3️⃣ Run the Design Flow:
+Versions:
 
-bash
-Copy
-Edit
-./flow.tcl -design my_chip -pdk sky130A
-This process automates the RTL-to-GDSII flow, generating a final layout ready for fabrication.
+(lecture videos)
 
-3.6 Future of Open-Source EDA
-Expanding support for advanced process nodes (e.g., 28nm, 14nm).
-Integration with AI/ML for automated optimizations.
-More open-source PDKs for different foundries.
-Conclusion
-Open-source EDA tools democratize IC design, allowing anyone to create custom chips without expensive proprietary software. With tools like Yosys, OpenROAD, and Magic, designers can go from RTL to GDSII in a fully open-source workflow.
+![image](https://github.com/user-attachments/assets/2f3d96a3-2617-4adf-a3d6-46fe1ba06da9)
 
+### OpenLANE ASIC Design Flow:
 
+(lecture videos)
 
+![image](https://github.com/user-attachments/assets/39b1dfd1-20c0-435f-b80e-d04265f0689f)
+
+## Section 3: Introduction to Opem Source EDA tools
+
+### General Linux Commands
+
+`cd`- Change directory
+
+`ls`- Lists files and directories present in working directory.
+
+`pwd`- Prints the current working directory.
+
+`mkdir`- Makes a new directory.
+
+`cp`- Copy.
+
+`tar`- Archive file commands.
+
+```bash
+# Change directory to the openlane folder that contains the pdk's designs's etc.
+cd Desktop/work/tools/openlane_working_dir/openlane/
+```
+![image](https://github.com/user-attachments/assets/a1a4fbec-fd49-427e-a949-1ee5fb6b4d22)
+
+```bash
+docker
+```
+![image](https://github.com/user-attachments/assets/cac7890f-bab7-436b-bf2f-b90007a811ff)
+
+```bash
+# The flow uses the script in flow.tcl
+# The -interactive tag lest the flow run step by step instead of all at once as it normally would.
+./flow.tcl -interactive
+```
+![image](https://github.com/user-attachments/assets/70712b6e-6a59-4532-b6b3-1c27e19a1cfb)
+
+```bash
+# Load the required packages required for the flow
+package require openlane 0.9
+```
+![image](https://github.com/user-attachments/assets/12a5656b-ddef-43b5-ac8a-6278f00a91b6)
+
+```bash
+# prepare the picorv32a design for synthesis
+# This step also merges lef files
+prep -design picorv32a
+```
+![image](https://github.com/user-attachments/assets/0b903227-76ce-4274-9e81-4d60e0de678d)
+
+*merged.lef* created by our previous command in `/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-01_17-13/tmp`
+
+![image](https://github.com/user-attachments/assets/eb696fcb-18cc-4975-b0ac-2ac834c7881a)
+
+Open by running the following commands in a new tab
+```bash
+cd /Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-01_17-13/tmp
+```
+```bash
+# Opening merged.lef file
+less merged.leff
+```
+![image](https://github.com/user-attachments/assets/d62fbce1-0fae-4f80-a445-5c8e909f4e02)
+
+```bash
+# Run synthesis
+run_synthesis
+```
+![image](https://github.com/user-attachments/assets/73a24b7b-1f16-4860-9443-cfb9e4e050b7)
+
+Screenshot of synthesis executed sucessfully.
+
+![image](https://github.com/user-attachments/assets/8e0557d0-c091-4114-ab64-93d100fe4c33)
+
+> [OpenLANE Docs](https://openlane.readthedocs.io/en/latest/)
+
+Our next step is to calculate the flop ratio which is The `no. of D Flip Flops` / `Total no. of cells`
+
+![image](https://github.com/user-attachments/assets/e47a45b1-b12e-4e5c-b3d5-aa7a8ca23731)
+
+No. of D Flip Flops = `sky130_fd_sc_hd__dfxtp_2` = 1613
+
+Total no of cells = `Number of cells:` = 14876
+
+Flop ratio = 1613 / 14876 = 0.10842968539
+
+In % Flop ratio = 10.842968539
+
+Synthesised netlist in `/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-01_17-13/results/synthesis`
+```bash
+cd /Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-01_17-13/results/synthesis
+```
+![image](https://github.com/user-attachments/assets/4fb9bb8f-e8a7-452f-8472-6804aad52fae)
+
+```bash
+less picorv32a.synthesis.v
+```
+![image](https://github.com/user-attachments/assets/6b635520-08b7-4333-b598-8c19471612e9)
+
+Screenshot of report in `/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-01_17-13/reports/synthesis` folder.
+```bash
+cd /Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-01_17-13/reports/synthesis
+# After this use the `less` commandto view the reports.
+```
+
+![image](https://github.com/user-attachments/assets/ea9c97e4-ad12-4641-a867-92bd0d3d38de)
