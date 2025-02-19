@@ -1,7 +1,5 @@
 LAB TASKS
 
-(This part of the documentation has been taken from my documentation for this same course from a little earlier
-
 Perform generation of Power Distribution Network (PDN) and explore the PDN layout.
 Commands to perform all necessary stages up until now
 
